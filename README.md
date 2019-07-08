@@ -9,3 +9,10 @@ Libraries:
 - openCv
 - numpy
 - scipy
+
+Input:
+Place the video inside the video directory
+
+```
+python rapid_dice_detection.py
+```
