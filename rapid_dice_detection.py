@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import scipy.cluster.hierarchy as hcluster
 
 def frame_extraction(video):
     # video = cv2.VideoCapture("./VideoPackage1/{}".format(video_name))
@@ -110,7 +111,7 @@ def Roi(orig_image):
     img = cv2.Canny(img, 10, upper)
     kernel = np.ones((13,13),np.uint8)
     img = cv2.dilate(img,kernel,iterations = 2)
-    _,contours, _ = cv2.findContours(img, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(img, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
     x,y,w,h = 0,0,np.shape(orig_image)[1],np.shape(orig_image)[0]
     for i,c in enumerate(contours):
         if cv2.contourArea(c) > largest_area:
@@ -156,11 +157,9 @@ def detect_dice(video_capture):
             dice_pos_value.append(len(keypoint_dict[i]))
             detected_dice.append(dice_pos_value)
 
-            im_with_keypoints = write_text(pos,text,im_with_keypoints)
+            # im_with_keypoints = write_text(pos,text,im_with_keypoints)
     return reference_frame_no,detected_dice
 
-video_filename = "2018-10-08@16-28-46.avi"
-video_capture = cv2.VideoCapture("/hom/mohandass/Documents/3_SEMESTER/CV/Dice/SoftwarePackage/Data/Videos/Evaluation/2018-10-08@16-28-46.avi")
+video_capture = cv2.VideoCapture("./video/2018-10-08@16-03-10.avi")
 reference_frame_no, detected_dice = detect_dice(video_capture)
-cv2.destroyAllWindows()
 
